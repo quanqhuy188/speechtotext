@@ -23,10 +23,17 @@ class SpeechRecognitionApi {
           const tableRows = document.querySelectorAll("#table-body tr");
 
           if (this.recordCount < tableRows.length - 1) {
-            const outputCell =
-              tableRows[this.recordCount].querySelector(".output");
+           
+            const inputCell =  tableRows[this.recordCount].querySelector(".input");
+            const outputCell =  tableRows[this.recordCount].querySelector(".output");
+            const resultCell =  tableRows[this.recordCount].querySelector(".result");
                 outputCell.textContent = result;
                 console.log('Kết quả record tại thời điểm: ',result)
+                if(inputCell.textContent.toLowerCase().trim() === result.toString().toLowerCase().trim()) {
+                    resultCell.textContent = "ĐÚNG"
+                } else {
+                    resultCell.textContent = "SAI"
+                }
           }
         };
         this.recordingInterval = setInterval(() => {
