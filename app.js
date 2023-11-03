@@ -40,8 +40,6 @@ class SpeechRecognitionApi {
       this.countdownInterval = setInterval(() => {
         this.recordTime--;
         this.updateTimerDisplay(timerCell);
-
-        // Khi bộ đếm giảm đến 0, dừng ghi âm và chuyển sang hàng tiếp theo (nếu có)
         if (this.recordTime === 0) {
           clearInterval(this.countdownInterval);
           this.stopRecording();
@@ -91,20 +89,25 @@ class SpeechRecognitionApi {
   // Xử lý kết quả từ SpeechRecognition
   handleSpeechResult(event) {
     const result = event.results[0][0].transcript;
-    const inputCell = this.tableRows[this.recordCount].querySelector(".input");
+    console.log(`Kết quả record tại thời điểm: ${result}`);
+    const inputCell = this.tableRows[this.recordCount].querySelectorAll(".input");
+    const resultText = result.toLowerCase().trim();
     const outputCell =
       this.tableRows[this.recordCount].querySelector(".output");
     const resultCell =
-      this.tableRows[this.recordCount].querySelector(".result");
+      this.tableRows[this.recordCount].querySelectorAll(".result");
     outputCell.textContent = result;
-    console.log(`Kết quả record tại thời điểm: ${result}`);
-    const inputText = inputCell.textContent.trim().toLowerCase();
-    const resultText = result.toLowerCase().trim();
-    resultCell.textContent = inputText === resultText ? "ĐÚNG" : "SAI";
-    this.tableRows[this.recordCount].style.backgroundColor =
-      inputText === resultText ? "green" : "red";
+    for(var i = 0; i < inputCell.length; i++) {
+      const inputText = inputCell[i].textContent.trim().toLowerCase();
+      if( inputText === resultText) {
+        resultCell[i].textContent = 'Đúng'
+      }
+      else {
+        resultCell[i].textContent = 'Sai'
+      }
+    }
+    this.tableRows[this.recordCount].style.backgroundColor = "green"
   }
-
   // Khởi tạo ứng dụng và lắng nghe sự kiện
   init() {
     // Bắt đầu ghi âm khi nút "Bắt đầu" được nhấn
