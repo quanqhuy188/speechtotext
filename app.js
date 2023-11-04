@@ -95,18 +95,18 @@ class SpeechRecognitionApi {
     const outputCell =
       this.tableRows[this.recordCount].querySelector(".output");
     const resultCell =
-      this.tableRows[this.recordCount].querySelectorAll(".result");
+      this.tableRows[this.recordCount].querySelector(".result");
     outputCell.textContent = result;
     for(var i = 0; i < inputCell.length; i++) {
       const inputText = inputCell[i].textContent.trim().toLowerCase();
       if( inputText === resultText) {
-        resultCell[i].textContent = 'Đúng'
+        resultCell.textContent = 'Đúng'
+        return;
       }
       else {
-        resultCell[i].textContent = 'Sai'
+        resultCell.textContent = 'Sai'
       }
     }
-    this.tableRows[this.recordCount].style.backgroundColor = "green"
   }
   // Khởi tạo ứng dụng và lắng nghe sự kiện
   init() {
